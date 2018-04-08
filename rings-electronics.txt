@@ -1,0 +1,6 @@
+chip: “ATA5577 compatible” with 330pF cap, $50/100 on Digikey
+modulation: f=125KHz, “PSK1” at f/2, data rate f/32, total 224 bits
+
+Coil retail varies (AliBaba, ebay), ~$150/200 at SmartPrototyping
+“5” ring coil: ∅ 1.2mm, ∅ 8.0mm, .9mm, 1.5mH – tiny range, flaky
+“8” ring coil:          ∅ 9.6mm,       1.5mH – small range, ok

@@ -1,0 +1,3 @@
+[submodule "reader-writer/libopencm3"]
+	path = reader-writer/libopencm3
+	url = https://github.com/libopencm3/libopencm3.git
