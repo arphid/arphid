@@ -1,0 +1,165 @@
+- Repair the mesh with netfabb
+- Open in blender (File -> Import -> STL) -> object properties -> Modifiers -> 
+  Decimate -> Collapse.
+- Export at ratio 0.2 and 0.05 (proportion of faces remaining after 
+  decimation). Continue with whatever looks good. Apply the modifier to commit 
+  it and start operating on a smaller mesh (phew!)
+- Save as 2017.blend for active development
+- Translate (g) and rotate (r) to roughly align the ring with the axes. After 
+  pressing (g) or (r) you can press (x/y/z) to lock to an axis. You may also 
+  want to rotate about the 3D cursor (look it up)
+- Tab -> edit mode. Use the bounding box (b) and circle (c) select tools in 
+  wireframe viewing mode (look it up) to select and delete (x) unwanted 
+  vertices/edges/faces from the scan.
+- Tab -> object mode. Add (A) a circle (set vertices to ~150) and rotate (r) 
+  and scale (s) it to line up with the inside of the ring. Translate (g) the 
+  circle as necessary.
+- ...but you actually wanted to center the ring instead of uncentering the 
+  circle, so look up the new center of the circle (n toggles the toolbar) and 
+  translate the ring and circle back to the origin.
+- Recenter the 3D cursor (Shift + C). Tab -> edit mode. Create another circle 
+  aligned with the outside of the ring. It doesn't seem to align perfectly -> 
+  align it more with the bottom than the top.
+- Select the circles (a or Alt + right click (+ shift)). Extrude (e) them 
+  circles in both directions beyond the extent of the ring.
+- Switch to the side view and bisect (t toolbox) the cylinders on the planes 
+  that form the sides of the ring. It might be useful to be in wireframe view 
+  while drawing these lines
+- Select (b) the outer vertices of the cylinder and delete them, leaving only 
+  the section within the bounding planes.
+Alternative directions to shape the bottom correctly:
+- Select only the outer circle (C and Shift + C in front view (1)). Switch to 
+  the side view (3) and deselect the middle (Shift + B). Switch back to the 
+  front view and scale (S) down to size. Switch to side view (3) and translate 
+  the center line to the center.
+
+- Switch back to the front view and delete the sections of the circles that 
+  overlap with the ring, leaving a slight gap between the two meshes. Use a 
+  radial cutoff from the center (I used a plane through the origin rotated to 
+  the desired angle as a guide)
+- Select the front sides of the inner and outer circles. Create a face (f) 
+  between them. Then do the same with the backs. Now they form a tube that 
+  could actually be the bottom of the ring. Select those faces and triangulate 
+  them (Ctrl + T).
+- Temporarily create faces on either end to form a closed volume. This makes 
+  text creation work better
+- Back to object mode. Center the 3D cursor (Shift + C) and create a circle (A 
+  -> Curve -> Circle). Rotate (rx90) and scale (s) it to line up with the 
+  inside of the ring.
+- Create a text object (A -> text). Change the text (edit mode) to MIT OPENS 
+  DOORS. In object mode go to the font toolbar. Center the text and scale it to 
+  the desired size.
+- Add a curve modifier to the text to curve it about the circle. If the text is 
+  now backwards then rotate it around the circle (ry180) and translate it back 
+  to the desired location (gz, gy, gx).
+- Convert the text to a mesh (Alt + C) -- this will apply the curve modifier.
+- Switch to edit mode and select the text (a). Duplicate it (e + ESC) and scale 
+  (s) it to "extrude" radially. Note that this requires the 3D cursor to still 
+  be at the origin (Shift + C).
+- Switch back to object mode and add a boolean modifier to the new circle 
+  geometry to subtract the text. Hide the text object and you should be able to 
+  see the engraved text. Apply the modifier.
+- Edit mode for the ring; use Alt + right click to select the edge loops you 
+  want to attach to the new geometry. If Alt + right click doesn't select the 
+  full loop, delete the triangle it gets stuck on and try again. If any full 
+  triangles are selected delete those as well. Merging the ring with the new 
+  geometry won't work well unless you do this.
+- Edit mode for the new geometry -- delete the extra faces you added for text 
+  engraving.
+- Object mode -- select both the ring and the new geometry and join them 
+  (Control + j)
+- Edit mode. Subdivide (t toolbar) the edge loops on the new geometry (~20 
+  subdivisions; the goal is to have about the same number of vertices on each 
+  edge loop). Then for each side select the new geometry edge loop and the 
+  original geometry edge loop and run "bridge edge loops" (space -> search -> 
+  bridge edge loops). If you get a funny result then take a closer look at your 
+  scan edge loops -- they may not be good loops.
+
+## Top separation
+
+
+### Make the top artwork into a separate part
+
+- Top view (7), use a bounding box select (b) to select a super set of the 
+  artwork. Then switch to front (1) and side (3) views and bounding box 
+  deselect the wrong parts of the mesh (b; shift + drag). Then switch back to 
+  the top (7) and use bounding box deselect (b; shift + drag) to cull out 
+  connecting pieces. This doesn't have to be perfect.
+- Separate selection into a separate part (p). Translate it in z out of the way 
+  and hide it; we'll come back to it later.
+
+### Delete the artwork-to-ring connecting pieces
+
+- Use circle select (c) with a large circle (scroll wheel) to select a super 
+  set of one side's connecting mesh. Then use bounding box deselect in the top 
+  (7), front (1), and side (3) views to remove the excess. Delete (x) faces.
+- Repeat for all four sides. Now the ring should have a large hole in it with a 
+  small shelf over it around the edges.
+
+### Build a cavity in the ring with a shelf to set the artwork on
+
+- Top view (7) create a plane (A -> plane). Resize (s) and translate (g) it so 
+  it roughly fills the cavity. You might find it useful to set the 3d cursor as 
+  the center for scaling (some icon; look it up). Front-ish view (1) looking 
+  slightly up and translate the plane down until it just barely doesn't cross 
+  into the inside of the ring. This is the bottom of the cavity.
+- Extrude it most of the way up -- this is the walls of the cavity up to the 
+  shelf.
+- Subdivide it into a 3x3 grid and move (g) the subdivisions to near the edges 
+  at the desired width of the shelf. Switch to face select mode and delete the 
+  middle face. Then select the other faces and extrude them up the height of 
+  the shelf.
+- This extrude operation creates extra faces on the inside of the ring that you 
+  don't want. They can't be seen from most angles, but you should find and 
+  delete them.
+- Select one side of the ring edge loop at a time and align all the points by 
+  scaling to 0 (sx0 or sy0).
+- Subdivide the edge loop of the extrusion. Select both it and the ring edge 
+  loop and bridge them (Space + search + Bridge Edge Loops). Once again, if you 
+  get weird behavior then delete weird triangles from the edge loop until it 
+  looks right.
+
+### Build a platform for the artwork that fits on the shelf
+
+- Switch parts to the top artwork and make a plane. Translate and scale it so 
+  it takes up most of the space on the shelf. Translate it to rest on the 
+  shelf.
+- Translate the artwork down until it's just above the plane. If it sticks out 
+  too high above the top of the ring then scale it in z (sz) until it doesn't 
+  anymore. Hide the ring to make the artwork and plane both accessible.
+- Subdivide the plane's edges (~80 subdivisions).
+- Look at the model from below and delete any vertices of the artwork that 
+  stick out -- they won't fit in the ring.
+- Clean up the artwork's edge (delete vertices that cause bad behavior and 
+  scale each side to size 0 to align the vertices) and bridge its edge loop to 
+  the plane.
+- Lower the top artwork onto the shelf.
+- Switch to edit mode for the ring. Add a second material, color it blue, and 
+  apply it to the top of the shelf. Now if you look from the top (7) you can 
+  see how much of a gap you have between the top artwork and the ring. Resize 
+  (sx, sy) the artwork as necessary to make this gap a reasonable size. You may 
+  also want to use the ruler (Space + ruler) tool.
+- Admire your work.
+
+## Fix normals
+
+This may be necessary for both parts:
+
+- Switch to edit mode (tab) and open the toolbar (n). Under "Mesh Display" 
+  click the icon for faces to display the normals. If they aren't all in the 
+  same direction, recompute face normals (ctrl + n).
+- When I did this I found some faces in the ring that hold the top pieces were 
+  oriented wrong because there were missing faces that should have connected 
+  them to the rest of the model. I might have an error in the steps for making 
+  the shelf -- check to make sure no faces are missing. Use (h) to hide 
+  selected faces and (Alt + H) to unhide them.
+  - Bridge edge loops seems to work best when the normals are pointing the 
+    right way
+
+## Export STLs
+
+For each part:
+
+- Select the part
+- File -> Export -> STL. Find the checkbox for only exporting the selected 
+  part.
